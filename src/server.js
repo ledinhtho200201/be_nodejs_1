@@ -11,9 +11,12 @@ const locallhost = process.env.HOST_NAME
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
+//config static files: image/css/js 
+app.use(express.static(path.join(__dirname, 'public')))
+
 //declare route
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World and nodemon!')
 })
 
 app.get('/abc', (req, res) => {
