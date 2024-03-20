@@ -1,31 +1,19 @@
-const express = require('express') // commonjs
-const { hostname } = require('os')
-const path = require('path') // commonjs
 require('dotenv').config()
+
+const express = require('express') // commonjs
+
 
 const app = express()  //app express
 const port = process.env.PORT //port => hardcode
-const locallhost = process.env.HOST_NAME
+const hostname = process.env.HOST_NAME;
+const configViewEngine = require('./config/viewEngine')
+const webRoutes = require('./routes/web')
 
 // config template engine
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
-
-//config static files: image/css/js 
-app.use(express.static(path.join(__dirname, 'public')))
+configViewEngine(app);
 
 //declare route
-app.get('/', (req, res) => {
-  res.send('Hello World and nodemon!')
-})
-
-app.get('/abc', (req, res) => {
-  res.send('<h1>nodejs for beginner</h1>')
-})
-
-app.get('/view', (req, res) => {
-  res.render('sample.ejs')
-})
+app.use('/web', webRoutes);
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`)
